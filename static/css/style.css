@@ -1,0 +1,103 @@
+/* rgba(134,172,61,1) light green */
+body {
+	background-color: #BE1421;
+	color: #444;
+	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, "Lucida Grande", sans-serif;
+	font-weight: 300;
+}
+
+#content {
+	background-color: rgba(255,255,255,1);
+	background-image: url('/static/img/snow.png');
+	position: absolute;
+	border-radius:10px;
+	padding:30px;
+	left: 40px;
+	right: 40px;
+	top: 30px;
+	margin-bottom: 30px;
+}
+
+.flashes {
+	margin-left: 50px;
+}
+
+.flashes li {
+	list-style: none;
+	padding: 5px;
+	display: inline-block;
+	border:1px solid #7DBCF2;
+	background-color:#C9E3FA;
+	border-radius: 5px;
+}
+
+h1 {
+	padding: 0 5px 0 0;
+	color: #BE1421;
+	border-bottom: 2px dotted #BE1421;
+}
+
+p {
+	padding:0 30px 0 30px;
+}
+
+fieldset {
+	margin:0 100px 0 70px;
+	border-radius: 5px;
+	border: solid 2px #426223;
+	background-color: white;
+}
+
+legend {
+	padding: 10px;
+	color: #426223;
+}
+
+form ul {
+	margin-top: 0;
+}
+
+form li {
+	list-style: none;
+	display: inline-block;
+	padding: 20px 5px;
+}
+
+form label {
+	padding: 5px 5px 5px 20px;
+}
+
+form label:after {
+	content:':';
+}
+
+form input[type=text], form input[type=email] {
+	background-color: rgba(134,172,61,0.6);#86AC3D;
+	padding: 5px ;
+	margin: 0;
+	border: 1px solid #426223;
+	border-radius: 4px; 
+	width: 250px;
+}
+
+form input[type=submit] {
+	padding: 5px 7px;
+	border-radius: 2px;
+	border: 1px solid;
+	background-color: rgba(134,172,61,0.7);
+	box-shadow: 3px;
+	color: #333;
+}
+
+form input[type=submit]:hover {
+	background-color: rgba(134,172,61,0.9);
+	box-shadow: 3px;
+}
+
+#submit_names {
+	margin-left: 115px;
+}
+
+.remove_person {
+	padding-left: 20px;
+}

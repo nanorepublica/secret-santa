@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block title %}Index{% endblock %}
+
+{% block content %}
+<h1>Secret Santa!</h1>
+
+<p>
+Enter the names of those who are going to be entered into the secret santa! (minimum of 4 participants required so you cannot work everything out!)
+</p>
+<p>
+Please note that no data is stored and who has who will be different each time!
+</p>
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class="flashes">
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+<form method="POST" action="{{ url_for('index') }}">
+	<fieldset>
+		<legend>Enter Participant Names</legend>
+		<ul id="form_list" data-bind="foreach: participants" >
+			<li>
+				<strong>Person <!-- ko text: $root.index($index) --><!--/ko-->:</strong>
+				<label for="name">Name</label>
+				<input data-bind="value: name, attr: {id: 'name_' + $index(), name: 'name_' + $index()}" type="text" />
+				<label for="email">Email</label>
+				<input data-bind="value: email, attr: {id: 'email_' + $index(), name: 'email_' + $index()}" type="email" />
+				<a class="remove_person" href=# data-bind="click: $root.removeName" >Remove</a>
+			</li>
+		</ul>
+		<ul>
+			<li style="display:block"><a data-bind="click: addName" id="add_name" href=# >Add another person...</a></li>
+			<li style="display:block"><input id="submit_names" type="submit" value="Send Emails" />
+		</ul>
+	</fieldset>
+</form>
+
+<script>
+$(document).ready(function(){
+	function Participant(name,email) {
+		var self = this;
+		self.name = name;
+		self.email = email;
+	}
+
+	function ParticipantModel() {
+		var self = this;
+		self.participants = ko.observableArray([
+			new Participant('',''),
+			new Participant('',''),
+			new Participant('',''),
+			new Participant('','')
+		]);
+		self.addName = function() {
+			self.participants.push(new Participant("",""));
+		}
+		self.removeName = function(participant) { 
+			self.participants.remove(participant);
+		}
+		self.index = function(index) { return index() + 1 }
+		self.html_id = function(id,index) { return id +'_' + index() }
+		self.html_name = function(name,index) { return name +'_' + index() }
+	}
+
+	ko.applyBindings(new ParticipantModel());
+//	var count = {{ min_people }};
+//	$('#add_name').click(function() {
+//		count++;
+		// USE KNOCKOUT!
+//	});
+});
+</script>
+{% endblock %}
+
+
+{% macro render_entry(count) %}
+<li><label for="name">Name {{ count }}</label><input data-bind="value: name" id="name_{{ count }}" name="name_{{ count }}" type="text" /></li>
+<li><label for="email">Email {{ count }}</label><input data-bind="value: email" id="email_{{ count }}"name="email_{{ count }}"  type="email" /></li>
+{% endmacro %}
