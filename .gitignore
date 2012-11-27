@@ -1,3 +1,4 @@
+*.vhost
 *.py[cod]
 
 # C extensions
