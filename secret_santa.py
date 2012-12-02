@@ -30,7 +30,7 @@ Ho Ho Ho!
 
 Father Christmas
 	''' % email_values
-			msg = Message('Santa needs some help! (Secret Santa)',recipients=[pair[1]],sender="santa@northpole.com",body=email)
+			msg = Message('Santa needs some help! (Secret Santa)',recipients=[pair[1]],sender="info@akmiller.com",body=email)
 			conn.send(msg)	
 
 
