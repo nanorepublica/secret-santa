@@ -1,12 +1,12 @@
 from flask import Flask, request, render_template, flash
-# from flask_mail import Mail, Message
+from flask_mail import Mail, Message
 from algorithm import generate_pairs
 from itertools import groupby
 app = Flask(__name__)
-# mail = Mail(app)
+mail = Mail(app)
 app.secret_key = '\x1eAc\xd6x\xce\xab\x99\xfb<\t\x89L\xc2\xb9\x88m\xa8\x0f\xfd\x10\x85\x8b\x13'
 
-SENDER_EMAIL = "info@akmiller.com"
+SENDER_EMAIL = "info@akmiller.co.uk"
 
 def calculate_names(names, restricted_pairs):
 	return generate_pairs(names, restricted_pairs)
@@ -61,7 +61,8 @@ def index():
 		if len(participants) >= 4:
 			pairs = calculate_names(participants.keys(), restricted_pairs)
 			flash('Pairs generated')
-			#send_emails(pairs,participants)
+			print pairs
+			send_emails(pairs,participants)
 			flash('Emails sent to participants')
 			send_third_party_email(third_party, pairs, participants)
 		else:

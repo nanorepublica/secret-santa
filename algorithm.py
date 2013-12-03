@@ -14,11 +14,9 @@ def generate_edges(l,r):
 
 def generate_pairs(p,r):
 	pairs = []
-	count = 0
 	while len(pairs) != len(p):
 		pairs = decide_pairs(p,generate_edges(p,r))
-		count = count + 1
-	return count
+	return pairs
 
 def decide_pairs(v,e):
 	''' takes a list of unique vertices v and a list of edges in the form of
