@@ -1,14 +1,14 @@
 from flask import Flask, request, render_template, flash
-from flask_mail import Mail, Message
-from algorithm import generate_edges, decide_pairs
+# from flask_mail import Mail, Message
+from algorithm import generate_pairs
 app = Flask(__name__)
-mail = Mail(app)
+# mail = Mail(app)
 app.secret_key = '\x1eAc\xd6x\xce\xab\x99\xfb<\t\x89L\xc2\xb9\x88m\xa8\x0f\xfd\x10\x85\x8b\x13'
 
+SENDER_EMAIL = "info@akmiller.com"
 
-def calculate_names(names):
-	restricted_pairs = []
-	return decide_pairs(names,generate_edges(names,restricted_pairs))
+def calculate_names(names, restricted_pairs):
+	return generate_pairs(names, restricted_pairs)
 
 def send_emails(pairs,names):
 	email_values = {}
@@ -30,20 +30,25 @@ Ho Ho Ho!
 
 Father Christmas
 	''' % email_values
-			msg = Message('Santa needs some help! (Secret Santa)',recipients=[pair[1]],sender="info@akmiller.com",body=email)
+			msg = Message('Santa needs some help! (Secret Santa)',recipients=[pair[1]],sender=SENDER_EMAIL,body=email)
 			conn.send(msg)	
 
 
 @app.route('/', methods=['GET','POST'])
 def index():
 	if request.method == 'POST':
+		print request.form
+		third_party = request.form['third_email'] if len(request.form['third_email']) else None
 		names = [(key.split('_')[-1],name) for key, name in request.form.items() if key.startswith('name') and len(name)]
 		emails = [(key.split('_')[-1],name) for key, name in request.form.items() if key.startswith('email') and len(name)]
 		participants = dict(zip(dict(emails).values(),dict(names).values()))
+		pairs = [(key.split('_')[-1],name) for key, name in request.form.items() if key.startswith('pair1') or key.startswith('pair2') and len(name)]
+		restricted_pairs = []
+		print restricted_pairs
 		if len(participants) >= 4:
-			pairs = calculate_names(participants.keys())
+			pairs = calculate_names(participants.keys(), restricted_pairs)
 			flash('Pairs generated')
-			send_emails(pairs,participants)
+			#send_emails(pairs,participants)
 			flash('Emails sent to participants')
 		else:
 			flash('Error: Not enough participants; please enter 4 or more names')
@@ -51,4 +56,14 @@ def index():
 
 if __name__ == '__main__':
 	app.run(debug=True)
+
+for i in l:
+    for k in l:
+        w = zip(k,l)
+        print w, w[0][0] == w[0][1]
+        if w[0][0] == w[0][1]:
+            if w[1][0] != w[1][1]:
+                q.append(w[1])
+                break
+
 

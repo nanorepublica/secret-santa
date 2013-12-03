@@ -35,17 +35,58 @@ Please note that no data is stored and who has who will be different each time!
 		</ul>
 		<ul>
 			<li style="display:block"><a data-bind="click: addName" id="add_name" href=# >Add another person...</a></li>
-			<li style="display:block"><input id="submit_names" type="submit" value="Send Emails" />
+			<li style="display:block"><input id="submit_names" type="submit" value="Send Emails" /></li>
+			<li style="display:block"><a id="advanced_link" href="#advanced_fieldset">Show Advanced Options</a></li>
+
+		</ul>
+	</fieldset>
+	<fieldset id="advanced_fieldset">
+	<legend>Advanced Options</legend>
+		<p>Specify Participants that do not want to send presents to each other. This applies both ways, for example specifying persons A and B, means A will not get B and B will not get A. Please enter email addresses contained in the form above.</p>
+		<ul id="pair_list" data-bind="foreach: pairs">
+			<li>
+				<strong>Pair <!-- ko text: $root.index($index) --><!--/ko-->:</strong>
+				<label for="pair1">Email</label>
+				<input data-bind="value: pair1, attr: {id: 'pair1_' + $index(), name: 'pair1_' + $index()}" type="text" />
+				<label for="pair2">Email</label>
+				<input data-bind="value: pair2, attr: {id: 'pair2_' + $index(), name: 'pair2_' + $index()}" type="text" />
+				<a class="remove_person" href=# data-bind="click: $root.removePair" >Remove</a>
+			</li>
+		</ul>
+		<ul>
+			<li style="display:block"><a data-bind="click: addPair" id="add_pair" href="#advanced_fieldset" >Add another pair...</a></li>
+			<li>Add an email below of a 'third' party that can keep a record of all the pairings in case anyone involved loses the email</li>
+			<li>
+				<label for="third_email">Email</label>
+				<input id="third_email" name="third_email" type="email" />
+			</li>
 		</ul>
 	</fieldset>
 </form>
 
+
+
 <script>
 $(document).ready(function(){
+	$('#advanced_link').click(function(){
+		if ($('#advanced_fieldset').css('display') === 'none') {
+			$('#advanced_fieldset').slideDown();
+			$('#advanced_link').text('Hide Advanced Options');
+		} else {
+			$('#advanced_fieldset').slideUp()
+			$('#advanced_link').text('Show Advanced Options');
+		}
+	});
 	function Participant(name,email) {
 		var self = this;
 		self.name = name;
 		self.email = email;
+	}
+
+	function Pair(name1,name2){
+		var self = this;
+		self.pair1 = name1;
+		self.pair2 = name2;
 	}
 
 	function ParticipantModel() {
@@ -56,11 +97,20 @@ $(document).ready(function(){
 			new Participant('',''),
 			new Participant('','')
 		]);
+		self.pairs = ko.observableArray([
+			new Pair('', '')
+		]);
 		self.addName = function() {
 			self.participants.push(new Participant("",""));
 		}
 		self.removeName = function(participant) { 
 			self.participants.remove(participant);
+		}
+		self.addPair = function() {
+			self.pairs.push(new Pair('', ''));
+		}
+		self.removePair = function(pair) {
+			self.pairs.remove(pair);
 		}
 		self.index = function(index) { return index() + 1 }
 		self.html_id = function(id,index) { return id +'_' + index() }
@@ -68,11 +118,6 @@ $(document).ready(function(){
 	}
 
 	ko.applyBindings(new ParticipantModel());
-//	var count = {{ min_people }};
-//	$('#add_name').click(function() {
-//		count++;
-		// USE KNOCKOUT!
-//	});
 });
 </script>
 {% endblock %}

@@ -55,8 +55,8 @@ legend {
 
 form ul {
 	margin-top: 0;
-	padding-left: 30%;
-	padding-right: 30%;
+	padding-left: 30px;
+	padding-right: 30px;
 }
 
 form li {
@@ -102,4 +102,8 @@ form input[type=submit]:hover {
 
 .remove_person {
 	padding-left: 20px;
+}
+
+#advanced_fieldset {
+	display: none;
 }

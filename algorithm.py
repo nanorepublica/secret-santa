@@ -12,6 +12,14 @@ def generate_edges(l,r):
 	else:
 		return edges
 
+def generate_pairs(p,r):
+	pairs = []
+	count = 0
+	while len(pairs) != len(p):
+		pairs = decide_pairs(p,generate_edges(p,r))
+		count = count + 1
+	return count
+
 def decide_pairs(v,e):
 	''' takes a list of unique vertices v and a list of edges in the form of
 		tuples (from,to)
@@ -32,6 +40,21 @@ def decide_pairs(v,e):
 
 
 if __name__ == "__main__":
-	l = ["Andrew Miller","Becky Miller","Katy Miller","Eliz Miller"]
-	r = [('Andrew Miller','Eliz Miller')]
-	print decide_pairs(l,generate_edges(l,r))
+	l = ["Andrew Miller","Becky Miller","Katy Miller","Vicki Oakley","Jacqui Oakley","Helen Oakley"]
+	r = [('Andrew Miller','Becky Miller'), ('Andrew Miller','Katy Miller'), ('Vicki Oakley','Jacqui Oakley'), ('Vicki Oakley','Helen Oakley')]
+	t = []
+	for i in xrange(1000):
+		t.append(hello(l,r))
+		if t[-1] > 1:
+			print len(t)
+			break
+#	print decide_pairs(l,generate_edges(l,r))
+
+#	t = []
+#	a = 10
+#	for i in xrange(a):
+#		q = decide_pairs(l,generate_edges(l,r))
+#		t.append(len(q))
+
+	for i in sorted(set(t)):
+		print i, t.count(i), t.count(i)/float(1000)*100
